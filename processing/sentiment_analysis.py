@@ -10,4 +10,3 @@ def analyze_sentiment():
     df["Sentiment"] = df["Text"].apply(lambda x: sia.polarity_scores(x)["compound"])
     return df
 
-#print(cleaned_data.head(10)) 

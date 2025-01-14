@@ -4,7 +4,6 @@ from processing.sentiment_analysis import analyze_sentiment
 
 def display():
     st.title("View Analysis")
-    
     st.subheader("Sentiment Analysis Results")
     
     try:

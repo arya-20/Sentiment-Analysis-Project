@@ -1,14 +1,22 @@
 import streamlit as st
 import pandas as pd
+from processing.file_handler import process_file  
 
 def display():
-    st.title("View Data")
+    st.title("Upload and View Data")
 
-    csv_file_path = "data/cleaned_reviews.csv"
+    uploaded_file = st.file_uploader("Choose a CSV file to upload", type="csv")
+    
+    if uploaded_file:
+        try:
+            cleaned_df = process_file(uploaded_file)
+            
+            cleaned_df.to_csv("data/cleaned_reviews.csv", index=False)
 
-    try:
-        df = pd.read_csv(csv_file_path)
-        st.write("Preview of Data:")
-        st.dataframe(df)
-    except FileNotFoundError:
-        st.error("file was not found")
+            st.success("File uploaded and cleaned successfully!")
+            st.write("Preview of Cleaned Data:")
+            st.dataframe(cleaned_df)
+        except Exception as e:
+            st.error(f"An error occurred while processing the file: {e}")
+    else:
+        st.info("Upload a CSV file to get started.")
