@@ -7,7 +7,10 @@ if project_root not in sys.path:
 
 
 import streamlit as st
+from styling import custom_css
 from screens import dashboard, upload, view_analysis, export
+
+custom_css()
 
 # Sidebar Nav
 st.sidebar.title("Menu")
