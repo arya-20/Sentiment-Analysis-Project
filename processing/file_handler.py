@@ -1,4 +1,10 @@
 import pandas as pd
+import re
+
+def extract_asin(text):
+    """Extract ASIN from the review text."""
+    match = re.search(r'\b[A-Z0-9]{10}\b', text) #regexp
+    return match.group(0) if match else None
 
 def process_file(file):
     # Load and clean data

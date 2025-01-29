@@ -2,12 +2,18 @@ import pandas as pd
 import nltk
 from nltk.sentiment import SentimentIntensityAnalyzer
 
-nltk.download("vader_lexicon")  
+nltk.download("vader_lexicon")
 sia = SentimentIntensityAnalyzer()
 
-def analyze_sentiment():
+def analyze_sentiment(asin=None):
     df = pd.read_csv("data/cleaned_reviews.csv")
+    
+    #filter by ASIN if it exsits
+    if asin:
+        df = df[df["Asin"] == asin]
+    
     df["Sentiment"] = df["Text"].apply(lambda x: sia.polarity_scores(x)["compound"])
+    
     def categorize_sentiment(score):
         if score <= -0.5:
             return "Very Negative"
@@ -18,7 +24,5 @@ def analyze_sentiment():
         else:
             return "Positive"
 
-    # Add labels to the DataFrame
     df["Sentiment Label"] = df["Sentiment"].apply(categorize_sentiment)
     return df
-
