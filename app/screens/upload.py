@@ -11,11 +11,10 @@ def display():
         try:
             cleaned_df = process_file(uploaded_file)
             
-            cleaned_df.to_csv("data/cleaned_reviews.csv", index=False)
+            cleaned_df.to_csv("data/review_file.csv", index=False)
 
             st.success("File uploaded and cleaned successfully!")
-#            st.write("Preview of Cleaned Data:")
-#            st.dataframe(cleaned_df)
+
         except Exception as e:
             st.error(f"An error occurred while processing the file: {e}")
     else:
