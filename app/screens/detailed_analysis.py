@@ -7,9 +7,13 @@ def display ():
 
     df = analyze_sentiment()
 
+    st.subheader("More Details of Reviews")
+    st.dataframe(df)
+
+
     st.write("### Most Negative Reviews")
     negative_reviews = df[df["Sentiment Label"] == "Very Negative"]
-    st.write(negative_reviews[["Title", "Text", "ASIN", "User ID"]].head(10))
+    st.write(negative_reviews[["Title", "Text", "ASIN", "User ID"]].head(20))
 
     asin_filter = st.text_input("Enter ASIN to filter reviews:")
     if asin_filter:
