@@ -11,7 +11,7 @@ def display():
         df = analyze_sentiment()
         label_counts = df["Sentiment Label"].value_counts()
         fig, ax = plt.subplots()
-        label_counts.plot(kind="bar", color=["purple", "purple", "purple", "purple"], ax=ax)
+        label_counts.plot(kind="bar", color=["#6300a9"], ax=ax)
 
         ax.set_title("Distribution of Sentiment Labels")
         ax.set_xlabel("Sentiment Labels")

@@ -56,16 +56,21 @@ def login():
 
     elif st.session_state['auth_mode'] == 'signup':
         st.subheader("Sign Up")
-        email = st.text_input("Email for Sign Up")
-        password = st.text_input("Password for Sign Up", type="password")
-        
-        if st.button("Sign Up"):
-            try:
-                user = auth.create_user(email=email, password=password)
-                st.session_state['logged_in'] = True
-                st.success(f"Account created successfully for {user.email}!")
-            except Exception as e:
-                st.error(f"Sign Up failed: {str(e)}")
+        email = st.text_input("Email for Sign Up", key="signup_email")
+        password = st.text_input("Password for Sign Up", type="password", key="signup_password")
+        confirm_password = st.text_input("Confirm Password", type="password", key="confirm_password")
+    
+        if st.button("Sign Up", key="signup_button"):
+            if password != confirm_password:
+                st.error("Passwords do not match. Please try again.")
+            else:
+                try:
+                # Assuming 'auth' is your Firebase or authentication service
+                    user = auth.create_user(email=email, password=password)
+                    st.session_state['logged_in'] = True
+                    st.success(f"Account created successfully for {user.email}!")
+                except Exception as e:
+                    st.error(f"Sign Up failed: {str(e)}")
         
         if st.button("Go to Login"):
             st.session_state['auth_mode'] = 'login'

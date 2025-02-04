@@ -1,16 +1,15 @@
 import os
 import sys
 import streamlit as st
+from styling import apply_custom_styles, display_logo
+
+apply_custom_styles()
+display_logo()
+
 
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if project_root not in sys.path:
     sys.path.append(project_root)
-
-def display_logo():
-    logo_path = "BTlogo.png"  
-    st.image(logo_path, width=100)  
-    st.markdown("<h1 style='text-align: center;'>Sentiment Analyser</h1>", unsafe_allow_html=True)
-
 
 from screens import dashboard, upload, view_analysis, detailed_analysis, export
 from security.login import login  # Import the updated login function
