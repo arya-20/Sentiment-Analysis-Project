@@ -9,7 +9,7 @@ if project_root not in sys.path:
     sys.path.append(project_root)
 
 
-cred = credentials.Certificate("security/firebase_credentials.json")
+cred = credentials.Certificate("security/firebase_credentials.json")  #initializing firebase with credentials
 initialize_app(cred)
 
 FIREBASE_WEB_API_KEY = "AIzaSyAQvSQUFThAPeDj75QTrj7h9OdsloF6jJY" 
@@ -23,40 +23,45 @@ def verify_password(email, password):
         "returnSecureToken": True
     }
     response = requests.post(url, json=payload)
-    if response.status_code == 200:
-        return response.json() 
+
+    if response.status_code == 200:     #checking if auth was successfull
+        return response.json()
     else:
         raise ValueError(response.json().get("error", {}).get("message", "Authentication failed"))
 
-def login():
-    #set up session state
+
+
+def login():  #login screen ui
     if 'auth_mode' not in st.session_state:
         st.session_state['auth_mode'] = 'login'  #default to login mode
 
     st.title("BT Feedback - Sentiment Analyser")
     
-    #toggle between
-    if st.session_state['auth_mode'] == 'login':
+    if st.session_state['auth_mode'] == 'login':  #toggle between login and signup
         st.subheader("Login")
-        email = st.text_input("Email")
+
+        email = st.text_input("Email")    #input fields
         password = st.text_input("Password", type="password")
         
         if st.button("Login"):
             try:
-                user = auth.get_user_by_email(email) 
-                verify_password(email, password)
+                user = auth.get_user_by_email(email)   #retrieve user data from firebase
+                verify_password(email, password)       #verify password using firebase rest api
                 
-                st.session_state['logged_in'] = True
+                st.session_state['logged_in'] = True   #mark session state as logged in
                 st.success(f"Welcome, {user.email}!")
             except Exception as e:
                 st.error(f"Login failed: {str(e)}")
         
         if st.button("Go to Sign Up"):
-            st.session_state['auth_mode'] = 'signup'
+            st.session_state['auth_mode'] = 'signup'   #button switches to signup 
+
+
 
     elif st.session_state['auth_mode'] == 'signup':
         st.subheader("Sign Up")
-        email = st.text_input("Email for Sign Up", key="signup_email")
+
+        email = st.text_input("Email for Sign Up", key="signup_email")      #input fields for singing up
         password = st.text_input("Password for Sign Up", type="password", key="signup_password")
         confirm_password = st.text_input("Confirm Password", type="password", key="confirm_password")
     
@@ -65,8 +70,7 @@ def login():
                 st.error("Passwords do not match. Please try again.")
             else:
                 try:
-                # Assuming 'auth' is your Firebase or authentication service
-                    user = auth.create_user(email=email, password=password)
+                    user = auth.create_user(email=email, password=password)   #create new user in firebase authentication
                     st.session_state['logged_in'] = True
                     st.success(f"Account created successfully for {user.email}!")
                 except Exception as e:

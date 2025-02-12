@@ -3,7 +3,7 @@ import pytest
 from io import StringIO
 from processing.file_handler import process_file  
 
-@pytest.fixture
+@pytest.fixture  #fixture to set up mocks
 def sample_csv():
     """Create a sample CSV file as a string."""
     data = """Rating, Title ,Text, ASIN, User ID, ExtraColumn

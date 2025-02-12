@@ -8,8 +8,8 @@ def display():
     
     if uploaded_file:
         try:
-            cleaned_df = process_file(uploaded_file)
-            cleaned_df.to_csv("data/review_file.csv", index=False)
+            cleaned_df = process_file(uploaded_file)       #uses function set in processing/file handler to clean uploaded file
+            cleaned_df.to_csv("data/review_file.csv", index=False)  #save the file to a csv file in data folder
 
             st.success("File uploaded and cleaned successfully!")
 

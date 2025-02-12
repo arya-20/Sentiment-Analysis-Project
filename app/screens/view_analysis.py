@@ -3,7 +3,7 @@ import pandas as pd
 import urllib.parse 
 from processing.sentiment_analysis import analyze_sentiment
 
-def generate_auto_response(sentiment, review_text):
+def generate_auto_response(sentiment, review_text):   #auto response templates 
     if sentiment == "Positive":
         return "Thank you for your positive feedback! We're thrilled to hear that you enjoyed your experience. 😊"
     elif sentiment == "Neutral":
@@ -26,22 +26,19 @@ def display():
         selected_columns = df[["Rating", "Text", "Sentiment Label"]]
         st.dataframe(selected_columns)
 
-        #dropdown
-        review_options = [f"Review {i + 1}: {row['Text'][:50]}..." for i, row in selected_columns.iterrows()]
+        review_options = [f"Review {i + 1}: {row['Text'][:50]}..." for i, row in selected_columns.iterrows()]     #dropdown to select review for auto response
         selected_review = st.selectbox("Select a review to generate an auto-response:", review_options)
 
         if st.button("Generate Auto-Response"):
-            review_index = review_options.index(selected_review)
+            review_index = review_options.index(selected_review)   #identify which review is selected and generate the appropriate response
             review_data = selected_columns.iloc[review_index]
-
             response = generate_auto_response(review_data["Sentiment Label"], review_data["Text"])
 
-            #email draft
-            recipient_email = ""  
+            recipient_email = ""   #email response to customer (actual email id will replace blank)
             subject = "Response to Your Review"
             body = f"Dear Customer,\n\n{response}\n\nBest regards,\nBT Feedback Team"
 
-            mailto_link = f"mailto:{recipient_email}?subject={urllib.parse.quote(subject)}&body={urllib.parse.quote(body)}"
+            mailto_link = f"mailto:{recipient_email}?subject={urllib.parse.quote(subject)}&body={urllib.parse.quote(body)}" #link to email 
             st.markdown(f"[Create Email Draft]({mailto_link})", unsafe_allow_html=True)
 
     except FileNotFoundError:
