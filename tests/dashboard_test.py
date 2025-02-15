@@ -10,7 +10,7 @@ class MessageCapture:
     pyplot_called = False
 
 #function to capture error message
-def test_error(msg):
+def capture_error(msg):
     MessageCapture.error_message = msg
 
 #function to track when st.pyplot() is called
@@ -27,7 +27,7 @@ def test_dashboard_success(monkeypatch):
     #replace functions with test functions
     monkeypatch.setattr(dashboard, "analyze_sentiment", test_analyze_sentiment)
     monkeypatch.setattr(st, "pyplot", test_pyplot)
-    monkeypatch.setattr(st, "error", test_error)
+    monkeypatch.setattr(st, "error", capture_error)
 
     MessageCapture.error_message = ""
     MessageCapture.pyplot_called = False
@@ -46,7 +46,7 @@ def test_dashboard_file_not_found(monkeypatch):
 
 #replace functions with test functions
     monkeypatch.setattr(dashboard, "analyze_sentiment", raise_file_not_found)
-    monkeypatch.setattr(st, "error", test_error)
+    monkeypatch.setattr(st, "error", capture_error)
 
     MessageCapture.error_message = ""
 

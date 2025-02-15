@@ -19,7 +19,7 @@ def test_analyze_sentiment():
 
 def test_view_analysis_generate_auto_response(monkeypatch):
     #patch analyze_sentiment function to return mock data
-    monkeypatch.setattr("processing.sentiment_analysis.analyze_sentiment", test_analyze_sentiment)   
+    monkeypatch.setattr("processing.sentiment_analysis.analyze_sentiment", test_analyze_sentiment)
 
     #mocking user selection with fake options
     fake_options = [
